@@ -1,53 +1,77 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Noten Rechner</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Schoolwork Organizer</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <h1>Noten Rechner</h1>
-        <form id="gradesForm">
-            <div class="input-group">
-                <label for="subject">Fach:</label>
-                <input type="text" id="subject" placeholder="Fachname">
-            </div>
-            <div class="input-group">
-                <label for="maxPoints">Maximale Punkte:</label>
-                <input type="number" id="maxPoints" placeholder="Maximale Punkte">
-            </div>
-            <div class="input-group">
-                <label for="earnedPoints">Erreichte Punkte:</label>
-                <input type="number" id="earnedPoints" placeholder="Erreichte Punkte">
-            </div>
-            <div class="input-group">
-                <label for="grade">Note:</label>
-                <input type="number" id="grade" min="1" max="5" placeholder="Note (1-5)">
-            </div>
-            <button type="submit">Hinzufügen</button>
-        </form>
+  <div id="login-screen" class="screen">
+    <h2>Willkommen!</h2>
+    <input type="text" id="username" placeholder="Benutzername" />
+    <input type="password" id="password" placeholder="Passwort" />
+    <button onclick="login()">Anmelden / Registrieren</button>
+  </div>
 
-        <h2>Notenübersicht</h2>
-        <table id="gradesTable">
-            <thead>
-                <tr>
-                    <th>Fach</th>
-                    <th>Maximale Punkte</th>
-                    <th>Erreichte Punkte</th>
-                    <th>Note</th>
-                    <th>Durchschnitt Fach</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Die Noten werden hier dynamisch eingefügt -->
-            </tbody>
-        </table>
+  <div id="app" class="hidden">
+    <nav>
+      <div id="burger" onclick="toggleMenu()">☰</div>
+      <ul id="menu" class="hidden">
+        <li onclick="switchMenu('dashboard')">Dashboard</li>
+        <li onclick="switchMenu('noten')">Noten hinzufügen</li>
+        <li onclick="switchMenu('uebersicht')">Übersicht</li>
+        <li onclick="switchMenu('termine')">Termine</li>
+        <li onclick="switchMenu('todo')">To-Do Liste</li>
+      </ul>
+    </nav>
 
-        <h2>Gesamt-Durchschnitt: <span id="averageGrade">0</span></h2>
-    </div>
+    <section id="dashboard" class="menu-section">
+      <h1 id="greeting">Hallo!</h1>
+      <p id="today-date"></p>
+      <p>Aktueller Notenschnitt: <span id="schnitt">-</span></p>
+      <h2>Nächste Termine:</h2>
+      <ul id="naechste-termine"></ul>
+    </section>
 
-    <script src="script.js"></script>
+    <section id="noten" class="menu-section hidden">
+      <h2>Note hinzufügen</h2>
+      <select id="fach">
+        <option>AM</option><option>E</option><option>D</option><option>KOPSL</option>
+        <option>GGP</option><option>NW</option><option>MSLF</option><option>WPT</option>
+        <option>RK</option><option>BSP</option><option>WSFTLM</option><option>WSFTLK</option>
+      </select>
+      <input type="number" id="zuPunkte" placeholder="Zu erreichende Punkte" />
+      <input type="number" id="erPunkte" placeholder="Erreichte Punkte" />
+      <input type="number" id="note" placeholder="Note (1-5)" />
+      <button onclick="addNote()">Hinzufügen</button>
+    </section>
+
+    <section id="uebersicht" class="menu-section hidden">
+      <h2>Notenübersicht</h2>
+      <div id="notenliste"></div>
+    </section>
+
+    <section id="termine" class="menu-section hidden">
+      <h2>Termine</h2>
+      <select id="termin-art">
+        <option>Test</option>
+        <option>Schularbeit</option>
+        <option>Kompetenzkontrolle</option>
+        <option>Referat</option>
+      </select>
+      <input type="date" id="termin-datum" />
+      <button onclick="addTermin()">Termin hinzufügen</button>
+    </section>
+
+    <section id="todo" class="menu-section hidden">
+      <h2>To-Do Liste</h2>
+      <input type="text" id="todo-eingabe" placeholder="Neuer Task" />
+      <button onclick="addTodo()">Hinzufügen</button>
+      <ul id="todo-liste"></ul>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
