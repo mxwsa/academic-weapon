@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f3f7fb;
+    color: #333;
+}
+
+.app {
+    display: flex;
+    height: 100vh;
+}
+
+.burger-menu {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+}
+
+.burger-icon {
+    width: 30px;
+    height: 3px;
+    background-color: #333;
+    margin: 6px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #70c3ff;
+    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    transition: 0.3s;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+}
+
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.2s;
+}
+
+.sidebar ul li a:hover {
+    color: #f9a8d4;
+}
+
+.content {
+    flex-grow: 1;
+    margin-left: 250px;
+    padding: 20px;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+h1, h3 {
+    color: #333;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+button {
+    background-color: #70c3ff;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background-color: #55a6c9;
+}
+
+#dashboard-info p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+#upcoming-appointments li {
+    background-color: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Animations */
+.open-sidebar {
+    left: 0 !important;
+}
+
+.burger-icon.open {
+    transform: rotate(45deg);
+    margin: 0;
+}
+
+.burger-icon.open:before {
+    top: 0;
+    transform: rotate(-90deg);
+}
+
+.burger-icon.open:after {
+    top: 0;
+    transform: rotate(-90deg);
+}
