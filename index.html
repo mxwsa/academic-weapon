@@ -7,26 +7,6 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Authentifizierung -->
-<div id="auth-screen">
-  <div id="register" class="auth-form">
-    <h2>Registrieren</h2>
-    <input type="email" id="reg-email" placeholder="E-Mail" required />
-    <input type="text" id="reg-username" placeholder="Benutzername" required />
-    <input type="password" id="reg-password" placeholder="Passwort" required />
-    <input type="password" id="reg-password-repeat" placeholder="Passwort wiederholen" required />
-    <button onclick="register()">Registrieren</button>
-    <p>Schon ein Konto? <a href="#" onclick="toggleAuthForms('login')">Einloggen</a></p>
-  </div>
-
-  <div id="login" class="auth-form hidden">
-    <h2>Login</h2>
-    <input type="email" id="login-email" placeholder="E-Mail" required />
-    <input type="password" id="login-password" placeholder="Passwort" required />
-    <button onclick="login()">Login</button>
-    <p>Noch kein Konto? <a href="#" onclick="toggleAuthForms('register')">Registrieren</a></p>
-  </div>
-</div>
 
   <div id="app" class="hidden">
     <nav>
