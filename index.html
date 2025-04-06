@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noten Rechner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Noten Rechner</h1>
+        <form id="gradesForm">
+            <div class="input-group">
+                <label for="subject">Fach:</label>
+                <input type="text" id="subject" placeholder="Fachname">
+            </div>
+            <div class="input-group">
+                <label for="maxPoints">Maximale Punkte:</label>
+                <input type="number" id="maxPoints" placeholder="Maximale Punkte">
+            </div>
+            <div class="input-group">
+                <label for="earnedPoints">Erreichte Punkte:</label>
+                <input type="number" id="earnedPoints" placeholder="Erreichte Punkte">
+            </div>
+            <div class="input-group">
+                <label for="grade">Note:</label>
+                <input type="number" id="grade" min="1" max="5" placeholder="Note (1-5)">
+            </div>
+            <button type="submit">Hinzufügen</button>
+        </form>
+
+        <h2>Notenübersicht</h2>
+        <table id="gradesTable">
+            <thead>
+                <tr>
+                    <th>Fach</th>
+                    <th>Maximale Punkte</th>
+                    <th>Erreichte Punkte</th>
+                    <th>Note</th>
+                    <th>Durchschnitt Fach</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Die Noten werden hier dynamisch eingefügt -->
+            </tbody>
+        </table>
+
+        <h2>Gesamt-Durchschnitt: <span id="averageGrade">0</span></h2>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
