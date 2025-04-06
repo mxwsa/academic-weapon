@@ -1,66 +1,115 @@
-let grades = {}; // Objekt, um Noten nach Fächern zu speichern
+let users = JSON.parse(localStorage.getItem("users")) || {};
+let currentUser = null;
 
-document.getElementById('gradesForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    // Werte aus den Eingabefeldern holen
-    const subject = document.getElementById('subject').value.trim();
-    const maxPoints = parseFloat(document.getElementById('maxPoints').value);
-    const earnedPoints = parseFloat(document.getElementById('earnedPoints').value);
-    const grade = parseFloat(document.getElementById('grade').value);
-
-    // Überprüfen, ob alle Felder ausgefüllt sind
-    if (subject && !isNaN(maxPoints) && !isNaN(earnedPoints) && !isNaN(grade)) {
-        // Noten in das grades Objekt eintragen
-        if (!grades[subject]) {
-            grades[subject] = []; // Falls das Fach noch nicht existiert, erstellen wir ein Array
-        }
-        grades[subject].push(grade);
-
-        // Neue Zeile in der Tabelle einfügen
-        const tableBody = document.getElementById('gradesTable').getElementsByTagName('tbody')[0];
-        const newRow = tableBody.insertRow();
-
-        newRow.insertCell(0).textContent = subject;
-        newRow.insertCell(1).textContent = maxPoints;
-        newRow.insertCell(2).textContent = earnedPoints;
-        newRow.insertCell(3).textContent = grade;
-        newRow.insertCell(4).textContent = calculateSubjectAverage(subject).toFixed(2); // Durchschnitt für Fach
-
-        // Berechnung des Gesamt-Durchschnitts
-        updateOverallAverage();
-
-        // Eingabefelder zurücksetzen
-        document.getElementById('gradesForm').reset();
-    } else {
-        alert('Bitte alle Felder ausfüllen!');
-    }
-});
-
-// Funktion zur Berechnung des Durchschnitts für ein Fach
-function calculateSubjectAverage(subject) {
-    const subjectGrades = grades[subject];
-    if (subjectGrades && subjectGrades.length > 0) {
-        const sum = subjectGrades.reduce((acc, grade) => acc + grade, 0);
-        return sum / subjectGrades.length;
-    }
-    return 0;
+function login() {
+  const uname = document.getElementById("username").value;
+  const pw = document.getElementById("password").value;
+  if (!users[uname]) {
+    users[uname] = { password: pw, noten: [], termine: [], todos: [] };
+  }
+  if (users[uname].password === pw) {
+    currentUser = uname;
+    document.getElementById("login-screen").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    updateDashboard();
+    updateTodos();
+    saveUsers();
+  } else {
+    alert("Falsches Passwort!");
+  }
 }
 
-// Funktion zur Berechnung des Gesamt-Durchschnitts
-function updateOverallAverage() {
-    const allGrades = [];
-    
-    // Alle Noten aus den einzelnen Fächern sammeln
-    for (let subject in grades) {
-        allGrades.push(...grades[subject]);
-    }
+function toggleMenu() {
+  document.getElementById("menu").classList.toggle("hidden");
+}
 
-    // Gesamt-Durchschnitt berechnen
-    const totalGrades = allGrades.length;
-    const totalSum = allGrades.reduce((acc, grade) => acc + grade, 0);
-    const overallAverage = (totalGrades === 0) ? 0 : (totalSum / totalGrades).toFixed(2);
+function switchMenu(menuId) {
+  document.querySelectorAll(".menu-section").forEach(el => el.classList.add("hidden"));
+  document.getElementById(menuId).classList.remove("hidden");
+  if (menuId === "uebersicht") updateUebersicht();
+  if (menuId === "dashboard") updateDashboard();
+  if (menuId === "todo") updateTodos();
+}
 
-    // Gesamt-Durchschnitt auf der Webseite anzeigen
-    document.getElementById('averageGrade').textContent = overallAverage;
+function saveUsers() {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+function addNote() {
+  const fach = document.getElementById("fach").value;
+  const zu = parseFloat(document.getElementById("zuPunkte").value);
+  const er = parseFloat(document.getElementById("erPunkte").value);
+  const note = parseFloat(document.getElementById("note").value);
+  users[currentUser].noten.push({ fach, zu, er, note });
+  saveUsers();
+  alert("Note gespeichert!");
+}
+
+function updateUebersicht() {
+  const container = document.getElementById("notenliste");
+  container.innerHTML = "";
+  const noten = users[currentUser].noten;
+  const fächer = [...new Set(noten.map(n => n.fach))];
+  fächer.forEach(fach => {
+    const gruppe = noten.filter(n => n.fach === fach).sort((a, b) => a.note - b.note);
+    const block = document.createElement("div");
+    block.innerHTML = `<h3>${fach}</h3>` + gruppe.map(n =>
+      `<p>${n.note} (${n.er}/${n.zu})</p>`
+    ).join("");
+    container.appendChild(block);
+  });
+}
+
+function addTermin() {
+  const art = document.getElementById("termin-art").value;
+  const datum = document.getElementById("termin-datum").value;
+  users[currentUser].termine.push({ art, datum });
+  saveUsers();
+  alert("Termin hinzugefügt!");
+}
+
+function updateDashboard() {
+  document.getElementById("greeting").textContent = "Hallo " + currentUser + "!";
+  document.getElementById("today-date").textContent = "Heute ist: " + new Date().toLocaleDateString();
+
+  const noten = users[currentUser].noten;
+  const schnitt = noten.length ? (noten.reduce((a, b) => a + b.note, 0) / noten.length).toFixed(2) : "-";
+  document.getElementById("schnitt").textContent = schnitt;
+
+  const termine = users[currentUser].termine.sort((a, b) => new Date(a.datum) - new Date(b.datum));
+  const heute = new Date();
+  const liste = document.getElementById("naechste-termine");
+  liste.innerHTML = "";
+  termine.forEach(t => {
+    const diff = Math.ceil((new Date(t.datum) - heute) / (1000 * 60 * 60 * 24));
+    const item = document.createElement("li");
+    item.textContent = `${t.art} am ${t.datum} – in ${diff} Tag(en)`;
+    liste.appendChild(item);
+  });
+}
+
+function addTodo() {
+  const input = document.getElementById("todo-eingabe");
+  const task = input.value;
+  if (task) {
+    users[currentUser].todos.push(task);
+    input.value = "";
+    updateTodos();
+    saveUsers();
+  }
+}
+
+function updateTodos() {
+  const liste = document.getElementById("todo-liste");
+  liste.innerHTML = "";
+  users[currentUser].todos.forEach((task, i) => {
+    const li = document.createElement("li");
+    li.textContent = task;
+    li.onclick = () => {
+      users[currentUser].todos.splice(i, 1);
+      updateTodos();
+      saveUsers();
+    };
+    liste.appendChild(li);
+  });
 }
