@@ -1,270 +1,78 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Schoolwork Organizer</title>
-  <style>
-    :root {
-      --pastell-blau: #cce3f0;
-      --hell-blau: #eaf4fc;
-      --mittel-blau: #9dc5e3;
-      --dunkel-blau: #4a90c2;
-      --text: #333;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: var(--hell-blau);
-      color: var(--text);
-    }
-
-    header {
-      background-color: var(--pastell-blau);
-      padding: 1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
-
-    .burger {
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    nav {
-      display: none;
-      flex-direction: column;
-      background-color: var(--mittel-blau);
-      position: fixed;
-      top: 0;
-      right: 0;
-      height: 100%;
-      width: 200px;
-      padding-top: 60px;
-      z-index: 100;
-    }
-
-    nav a {
-      padding: 1rem;
-      color: white;
-      text-decoration: none;
-      border-bottom: 1px solid white;
-    }
-
-    nav a:hover {
-      background-color: var(--dunkel-blau);
-    }
-
-    .active {
-      display: flex;
-    }
-
-    .content {
-      padding: 1rem;
-    }
-
-    .section {
-      display: none;
-    }
-
-    .section.active {
-      display: block;
-    }
-
-    input, select, button {
-      margin: 0.5rem 0;
-      padding: 0.5rem;
-      width: 100%;
-      max-width: 400px;
-    }
-
-    .card {
-      background-color: white;
-      padding: 1rem;
-      margin: 0.5rem 0;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .note {
-      font-weight: bold;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schoolwork Organizer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="app">
+        <!-- Burger Menu -->
+        <div class="burger-menu" id="burger-menu">
+            <div class="burger-icon"></div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <ul>
+                <li><a href="#notens-hinzufuegen">Noten Hinzufügen</a></li>
+                <li><a href="#uebersicht">Übersicht</a></li>
+                <li><a href="#termine">Termine</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#todo-liste">To-Do Liste</a></li>
+            </ul>
+        </div>
 
-  <header>
-    <h1>Schoolwork Organizer</h1>
-    <div class="burger" onclick="toggleMenu()">☰</div>
-  </header>
+        <!-- Main Content Area -->
+        <div class="content">
+            <!-- Dashboard -->
+            <section id="dashboard">
+                <h1>Willkommen im Dashboard</h1>
+                <div id="dashboard-info">
+                    <p>Datum: <span id="current-date"></span></p>
+                    <p>Notendurchschnitt: <span id="average-grade">-</span></p>
+                    <h3>Anstehende Termine:</h3>
+                    <ul id="upcoming-appointments"></ul>
+                </div>
+            </section>
 
-  <nav id="menu">
-    <a href="#" onclick="switchSection('dashboard')">Dashboard</a>
-    <a href="#" onclick="switchSection('noten')">Noten hinzufügen</a>
-    <a href="#" onclick="switchSection('übersicht')">Übersicht</a>
-    <a href="#" onclick="switchSection('termine')">Termine</a>
-    <a href="#" onclick="switchSection('todo')">To-Do Liste</a>
-  </nav>
+            <!-- Noten Hinzufügen -->
+            <section id="notens-hinzufuegen">
+                <h1>Noten Hinzufügen</h1>
+                <form id="grade-form">
+                    <label for="subject">Fach:</label>
+                    <select id="subject">
+                        <option value="AM">AM</option>
+                        <option value="E">E</option>
+                        <option value="D">D</option>
+                        <option value="KOPSL">KOPSL</option>
+                        <option value="GGP">GGP</option>
+                        <option value="NW">NW</option>
+                        <option value="MSLF">MSLF</option>
+                        <option value="WPT">WPT</option>
+                        <option value="RK">RK</option>
+                        <option value="BSP">BSP</option>
+                        <option value="WSFTLM">WSFTLM</option>
+                        <option value="WSFTLK">WSFTLK</option>
+                    </select>
+                    <label for="target-points">Zu erreichende Punkte:</label>
+                    <input type="number" id="target-points" placeholder="z.B. 100">
+                    <label for="earned-points">Erreichte Punkte:</label>
+                    <input type="number" id="earned-points" placeholder="z.B. 80">
+                    <label for="grade">Erreichte Note:</label>
+                    <input type="number" id="grade" min="1" max="5" placeholder="Note von 1 bis 5">
+                    <button type="submit">Speichern</button>
+                </form>
+            </section>
 
-  <div class="content">
-
-    <div id="dashboard" class="section active">
-      <h2>Willkommen!</h2>
-      <p>Heute ist <span id="datum"></span></p>
-      <p>Aktueller Notenschnitt: <span id="schnittAnzeige">-</span></p>
-      <h3>Nächste Termine:</h3>
-      <div id="terminListe"></div>
+            <!-- Weitere Bereiche -->
+            <section id="uebersicht"></section>
+            <section id="termine"></section>
+            <section id="todo-liste"></section>
+        </div>
     </div>
 
-    <div id="noten" class="section">
-      <h2>Note hinzufügen</h2>
-      <select id="fach">
-        <option value="">Fach wählen</option>
-        <option>AM</option><option>E</option><option>D</option><option>KOPSL</option>
-        <option>GGP</option><option>NW</option><option>MSLF</option><option>WPT</option>
-        <option>RK</option><option>BSP</option><option>WSFTLM</option><option>WSFTLK</option>
-      </select>
-      <input type="number" id="punkteZiel" placeholder="Zu erreichende Punkte">
-      <input type="number" id="punkteIst" placeholder="Erreichte Punkte">
-      <input type="number" id="note" min="1" max="5" placeholder="Note (1-5)">
-      <button onclick="addNote()">Hinzufügen</button>
-    </div>
-
-    <div id="übersicht" class="section">
-      <h2>Übersicht</h2>
-      <div id="notenListe"></div>
-    </div>
-
-    <div id="termine" class="section">
-      <h2>Termin hinzufügen</h2>
-      <select id="terminArt">
-        <option>Test</option>
-        <option>Schularbeit</option>
-        <option>Kompetenzkontrolle</option>
-        <option>Referat</option>
-      </select>
-      <input type="date" id="terminDatum">
-      <button onclick="addTermin()">Hinzufügen</button>
-    </div>
-
-    <div id="todo" class="section">
-      <h2>To-Do Liste</h2>
-      <input type="text" id="todoInput" placeholder="Neues To-Do">
-      <button onclick="addTodo()">Hinzufügen</button>
-      <ul id="todoListe"></ul>
-    </div>
-
-  </div>
-
-  <script>
-    // Menü
-    function toggleMenu() {
-      document.getElementById("menu").classList.toggle("active");
-    }
-
-    function switchSection(id) {
-      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-      document.getElementById(id).classList.add("active");
-      toggleMenu();
-      if (id === "übersicht") showNoten();
-      if (id === "dashboard") showDashboard();
-    }
-
-    // Dashboard Datum
-    document.getElementById("datum").innerText = new Date().toLocaleDateString();
-
-    // Daten speichern
-    let noten = JSON.parse(localStorage.getItem("noten") || "[]");
-    let termine = JSON.parse(localStorage.getItem("termine") || "[]");
-    let todos = JSON.parse(localStorage.getItem("todos") || "[]");
-
-    function addNote() {
-      const fach = document.getElementById("fach").value;
-      const ziel = +document.getElementById("punkteZiel").value;
-      const ist = +document.getElementById("punkteIst").value;
-      const note = +document.getElementById("note").value;
-      if (fach && ziel && ist && note >= 1 && note <= 5) {
-        noten.push({ fach, ziel, ist, note });
-        localStorage.setItem("noten", JSON.stringify(noten));
-        alert("Note gespeichert!");
-      } else {
-        alert("Bitte alle Felder korrekt ausfüllen.");
-      }
-    }
-
-    function showNoten() {
-      const liste = document.getElementById("notenListe");
-      liste.innerHTML = '';
-      const fächer = [...new Set(noten.map(n => n.fach))];
-      fächer.forEach(fach => {
-        const fachNoten = noten.filter(n => n.fach === fach).sort((a,b) => a.note - b.note);
-        let html = `<h4>${fach}</h4>`;
-        fachNoten.forEach(n => {
-          html += `<div class="card">Note: <span class="note">${n.note}</span>, Punkte: ${n.ist}/${n.ziel}</div>`;
-        });
-        liste.innerHTML += html;
-      });
-      const schnitt = noten.reduce((a,b) => a + b.note, 0) / noten.length || 0;
-      document.getElementById("schnittAnzeige").innerText = schnitt.toFixed(2);
-    }
-
-    function addTermin() {
-      const art = document.getElementById("terminArt").value;
-      const datum = document.getElementById("terminDatum").value;
-      if (datum) {
-        termine.push({ art, datum });
-        localStorage.setItem("termine", JSON.stringify(termine));
-        alert("Termin gespeichert!");
-      }
-    }
-
-    function showDashboard() {
-      showNoten();
-      const now = new Date();
-      const list = document.getElementById("terminListe");
-      list.innerHTML = '';
-      const upcoming = termine
-        .map(t => ({ ...t, tage: Math.ceil((new Date(t.datum) - now) / (1000 * 60 * 60 * 24)) }))
-        .sort((a, b) => a.tage - b.tage);
-      upcoming.forEach(t => {
-        list.innerHTML += `<div class="card">${t.art} am ${t.datum} – in ${t.tage} Tagen</div>`;
-      });
-    }
-
-    function addTodo() {
-      const text = document.getElementById("todoInput").value;
-      if (text) {
-        todos.push(text);
-        localStorage.setItem("todos", JSON.stringify(todos));
-        renderTodos();
-      }
-    }
-
-    function renderTodos() {
-      const ul = document.getElementById("todoListe");
-      ul.innerHTML = '';
-      todos.forEach((t, i) => {
-        const li = document.createElement("li");
-        li.textContent = t;
-        li.onclick = () => {
-          todos.splice(i,1);
-          localStorage.setItem("todos", JSON.stringify(todos));
-          renderTodos();
-        };
-        ul.appendChild(li);
-      });
-    }
-
-    // Initial anzeigen
-    showDashboard();
-    renderTodos();
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
